@@ -1,0 +1,145 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Master</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="slNO " class="control-label">slNO </label>
+                <input id="slNO " value="0" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="locations" class="control-label">locations</label>
+                <input id="locations" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="courID" class="control-label">courID</label>
+                <input id="courID" class="form-control" />
+                <div class="form-group">
+                    <label for="instructorID" class="control-label">instructorID</label>
+                    <input id="instructorID" class="form-control" />
+            </div>
+                <div class="form-group">
+                    <label for="date" class="control-label">date</label>
+                    <input id="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="time" class="control-label">time</label>
+                    <input id="time" class="form-control" />
+                </div>
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <hr/> 
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                        <tr><th>slNO</th><th>locations</th><th>courID</th><th>instructorID</th><th>date</th><th>time</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+                url: "https://localhost:7105/api/courseSchedules/GetAll",
+            success: function (d) {
+                a1 = "";
+                $.each(d, function (i, item) {
+                        a1 += `<tr><td>${d[i].slNO}</td><td><input value="${d[i].locations}" /></td><td><input value="${d[i].courID}" /></td><td><input value="${d[i].instructorID}" /></td><td><input value="${d[i].date}" /></td><td><input value="${d[i].time}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${d[i].slNO}','${d[i].locations}','${d[i].courID}','${d[i].instructorID}','${d[i].date}','${d[i].time}')">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c) {
+            //alert("OK")
+                $("#slNO ").val(a);
+                $("#locations ").val(b);
+                $("#courID ").val(c);
+                $("#instructorID").val(c);
+                $("#date").val(c);
+                $("#time").val(c);
+
+        }
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "aID": $("#aID").val(),
+                "areaName": $("#areaName").val(),
+                "cityID": $("#cityID").val(),
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                    url: "https://localhost:7105/api/courseSchedules/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                        window.location = "/CourseSchedule";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "aID": $("#aID").val(),
+                "areaName": $("#areaName").val(),
+                "cityID": $("#cityID").val(),
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                    url: `https://localhost:7105/api/courseSchedules/Update?id=${$("#aID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                        window.location = "/CourseSchedule";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+                //console.log(`https://localhost:7105/api/courseSchedules/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                    url: `https://localhost:7105/api/courseSchedules/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>

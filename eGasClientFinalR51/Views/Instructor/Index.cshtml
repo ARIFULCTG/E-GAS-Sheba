@@ -1,0 +1,206 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Master</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="instructorID " class="control-label">instructorID</label>
+                <input id="instructorID " value="0" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="intsName " class="control-label">intsName</label>
+                <input id="intsName " class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_01" class="control-label">phone_01</label>
+                <input id="phone_01" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_02" class="control-label">phone_02</label>
+                <input id="phone_02" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Gid" class="control-label">Gid</label>
+                <input id="Gid" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="cityID" class="control-label">cityID</label>
+                <input id="cityID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="instructorID" class="control-label">instructorID</label>
+                <input id="instructorID" class="form-control" />
+            </div>
+             <div class="form-group">
+                <label for="road_No" class="control-label">road_No</label>
+                <input id="road_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="house_No" class="control-label">house_No</label>
+                <input id="house_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="eduQualificationID" class="control-label">eduQualificationID</label>
+                <input id="eduQualificationID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="experience" class="control-label">experience</label>
+                <input id="experience" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="photo" class="control-label">photo</label>
+                <input id="photo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="NID" class="control-label">NID</label>
+                <input id="NID" class="form-control" />
+            </div>
+
+
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                    <tr><th>instructorID</th><th>intsName</th><th>phone_01</th><th>phone_02</th><th>Gid</th><th>cityID</th><th>instructorID</th><th>road_No</th><th>house_No</th><th>eduQualificationID</th><th>photo</th><th>NID</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "https://localhost:7105/api/instructors/GetAll",
+            success: function (d) {
+                a1 = "";
+                $.each(d, function (i, item) {
+                    a1 += `<tr><td>${d[i].instructorID}</td><td><input value="${d[i].intsName}" /></td><td><input value="${d[i].phone_01}" /></td><td><td><input value="${d[i].phone_02}" /></td><td><td><td><input value="${d[i].Gid}" /></td><td><td><input value="${d[i].cityID}" /></td><td><td><input value="${d[i].instructorID}" /></td><td><td><td><input value="${d[i].road_No}" /></td><td><td><td><td><input value="${d[i].house_No}" /></td><td><td><td><td><input value="${d[i].eduQualificationID}" /></td><td><td><td><input value="${d[i].experience}" /></td><td><td><td><input value="${d[i].photo}" /></td><td><td><td><input value="${d[i].NID}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${d[i].instructorID}','${d[i].intsName}','${d[i].phone_01}','${d[i].phone_02}','${d[i].Gid}','${d[i].cityID}','${d[i].instructorID}','${d[i].road_No}','${d[i].house_No}','${d[i].eduQualificationID}','${d[i].experience}'),'${d[i].photo}','${d[i].NID}'">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c, d, e, f, g, h, i, j, k, l, m) {
+            //alert("OK")
+            $("#instructorID").val(a);
+            $("#intsName").val(b);
+            $("#phone_01").val(c);
+            $("#phone_02").val(d);
+            $("#Gid").val(e);
+            $("#cityID").val(f);
+            $("#instructorID").val(g);
+            $("#road_No").val(h);
+            $("#house_No").val(i);
+            $("#eduQualificationID").val(j);
+            $("#experience").val(k);
+            $("#photo").val(l);
+            $("#NID").val(m);
+
+        }
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "instructorID": $("#instructorID").val(),
+                "intsName": $("#intsName").val(),
+                "phone_01" : $("#phone_01").val(),
+                "phone_02" : $("#phone_02").val(),
+                "Gid" : $("#Gid").val(),
+                "cityID" : $("#cityID").val(),
+                "instructorID" : $("#instructorID").val(),
+                "road_No" : $("#road_No").val(),
+                "house_No" : $("#house_No").val(),
+                "eduQualificationID" : $("#eduQualificationID").val(),
+                "experience" : $("#experience").val(),
+                "photo" : $("#photo").val(),
+                "NID" : $("#NID").val()
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "https://localhost:7105/api/instructors/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Instructor";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "instructorID": $("#instructorID").val(),
+                "intsName": $("#intsName").val(),
+                "phone_01": $("#phone_01").val(),
+                "phone_02": $("#phone_02").val(),
+                "Gid": $("#Gid").val(),
+                "cityID": $("#cityID").val(),
+                "instructorID": $("#instructorID").val(),
+                "road_No": $("#road_No").val(),
+                "house_No": $("#house_No").val(),
+                "eduQualificationID": $("#eduQualificationID").val(),
+                "experience": $("#experience").val(),
+                "photo": $("#photo").val(),
+                "NID": $("#NID").val()
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: `https://localhost:7105/api/instructors/Update?id=${$("#instructorID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Instructor";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+            //console.log(`https://localhost:7105/api/instructors/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: `https://localhost:7105/api/instructors/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>

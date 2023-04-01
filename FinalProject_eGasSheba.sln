@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalProject_eGasSheba", "FinalProject_eGasSheba\FinalProject_eGasSheba.csproj", "{F3B3D313-1C37-4046-A599-A78D4F05968E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eGasClientFinalR51", "eGasClientFinalR51\eGasClientFinalR51.csproj", "{898A93E4-1C10-4CE4-B272-7AB59F217C13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3B3D313-1C37-4046-A599-A78D4F05968E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B3D313-1C37-4046-A599-A78D4F05968E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B3D313-1C37-4046-A599-A78D4F05968E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B3D313-1C37-4046-A599-A78D4F05968E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{898A93E4-1C10-4CE4-B272-7AB59F217C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{898A93E4-1C10-4CE4-B272-7AB59F217C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{898A93E4-1C10-4CE4-B272-7AB59F217C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{898A93E4-1C10-4CE4-B272-7AB59F217C13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9645E15-798E-4A55-A0E7-1B3DC093751F}
+	EndGlobalSection
+EndGlobal

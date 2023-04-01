@@ -1,0 +1,246 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Master</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="supplierID" class="control-label">supplierID</label>
+                <input id="supplierID" value="0" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="supplierCode" class="control-label">supplierCode</label>
+                <input id="supplierCode" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="supplierName " class="control-label">supplierName </label>
+                <input id="supplierName " class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="contract_person" class="control-label">contract_person</label>
+                <input id="contract_person" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_01" class="control-label">phone_01</label>
+                <input id="phone_01" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_02" class="control-label">phone_02</label>
+                <input id="phone_02" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="license_number" class="control-label">license_number</label>
+                <input id="license_number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="TIN_ID" class="control-label">TIN_ID</label>
+                <input id="TIN_ID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label">email</label>
+                <input id="email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="cityID" class="control-label">cityID</label>
+                <input id="cityID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="areaID" class="control-label">areaID</label>
+                <input id="areaID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="road_No" class="control-label">road_No</label>
+                <input id="road_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="house_No" class="control-label">house_No</label>
+                <input id="house_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="supplier_Type" class="control-label">supplier_Type</label>
+                <input id="supplier_Type" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="photo" class="control-label">photo</label>
+                <input id="photo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="tolerance" class="control-label">tolerance</label>
+                <input id="tolerance" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="credit_limit" class="control-label">credit_limit</label>
+                <input id="credit_limit" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="ConditionID" class="control-label">ConditionID</label>
+                <input id="ConditionID" class="form-control" />
+            </div>
+
+
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                    <tr><th>supplierID</th><th>supplierCode</th><th>supplierName</th><th>contract_person</th><th>phone_01</th><th>phone_02</th><th>license_number</th><th>TIN_ID</th><th>email</th><th>cityID</th><th>areaID</th><th>road_No</th><th>house_No</th><th>supplier_Type</th><th>photo</th><th>tolerance</th><th>credit_limit</th><th>ConditionID</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "https://localhost:7105/api/suppliers/GetAll",
+            success: function (d) {
+                a1 = "";
+                $.each(d, function (i, item) {
+                    a1 += `<tr><td>${d[i].supplierID}</td><td><input value="${d[i].supplierCode}" /></td><td><input value="${d[i].supplierName}" /></td><td><input value="${d[i].contract_person}" /></td><td><input value="${d[i].phone_01}" /></td><td><input value="${d[i].phone_02}" /></td><td><input value="${d[i].license_number}" /></td><td><input value="${d[i].TIN_ID}" /></td><td><input value="${d[i].email}" /></td><td><input value="${d[i].cityID}" /></td><td><input value="${d[i].areaID}" /></td><td><input value="${d[i].road_No}" /></td><td><input value="${d[i].house_No}" /></td><td><input value="${d[i].supplier_Type}" /></td><td><input value="${d[i].photo}" /></td><td><input value="${d[i].tolerance}" /></td><td><input value="${d[i].credit_limit}" /></td><td><input value="${d[i].ConditionID}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${d[i].supplierID}','${d[i].supplierCode}','${d[i].supplierName}','${d[i].phone_01}','${d[i].phone_02}','${d[i].license_number}','${d[i].TIN_ID}','${d[i].email}','${d[i].cityID}','${d[i].areaID}','${d[i].road_No}','${d[i].house_No}','${d[i].supplier_Type}','${d[i].photo}','${d[i].tolerance}','${d[i].credit_limit}','${d[i].ConditionID}')">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c, d, e, f, g, h, i, j,k,l,m,n,o,p,q,r,s,t) {
+            //alert("OK")
+            $("#supplierID").val(a);
+            $("#supplierCode").val(b);
+            $("#supplierName").val(c);
+            $("#contract_person").val(d);
+            $("#phone_01").val(e);
+            $("#phone_02").val(f);
+            $("#license_number").val(g);
+            $("#TIN_ID").val(h);
+            $("#email").val(i);
+            $("#cityID").val(j);
+            $("#areaID").val(a);
+            $("#road_No").val(b);
+            $("#house_No").val(c);
+            $("#depID").val(d);
+            $("#supplier_Type").val(e);
+            $("#size").val(f);
+            $("#photo").val(g);
+            $("#tolerance").val(h);
+            $("#credit_limit").val(i);
+            $("#ConditionID").val(j);
+
+        }
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "supplierID": $("#supplierID").val(),
+                "supplierCode": $("#supplierCode").val(),
+                "supplierName": $("#supplierName").val(),
+                "contract_person": $("#contract_person").val(),
+                "phone_01": $("#phone_01").val(),
+                "phone_02": $("#phone_01").val(),
+                "license_number": $("#license_number").val(),
+                "TIN_ID": $("#TIN_ID").val(),
+                "email": $("#email").val(),
+                "cityID": $("#cityID").val()
+                "areaID": $("#areaID").val(),
+                "road_No": $("#road_No").val(),
+                "house_No": $("#house_No").val(),
+                "supplier_Type": $("#supplier_Type").val(),
+                "photo": $("#photo").val(),
+                "size": $("#size").val(),
+                "tolerance": $("#tolerance").val(),
+                "credit_limit": $("#credit_limit").val(),
+                "proImage": $("#proImage").val(),
+                "ConditionID": $("#ConditionID").val()
+
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "https://localhost:7105/api/suppliers/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Supplier";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "supplierID": $("#supplierID").val(),
+                "supplierCode": $("#supplierCode").val(),
+                "supplierName": $("#supplierName").val(),
+                "contract_person": $("#contract_person").val(),
+                "phone_01": $("#phone_01").val(),
+                "phone_02": $("#phone_01").val(),
+                "license_number": $("#license_number").val(),
+                "TIN_ID": $("#TIN_ID").val(),
+                "email": $("#email").val(),
+                "cityID": $("#cityID").val()
+                "areaID": $("#areaID").val(),
+                "road_No": $("#road_No").val(),
+                "house_No": $("#house_No").val(),
+                "supplier_Type": $("#supplier_Type").val(),
+                "photo": $("#photo").val(),
+                "size": $("#size").val(),
+                "tolerance": $("#tolerance").val(),
+                "credit_limit": $("#credit_limit").val(),
+                "proImage": $("#proImage").val(),
+                "ConditionID": $("#ConditionID").val()
+
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: `https://localhost:7105/api/suppliers/Update?id=${$("#aID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Supplier";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+            //console.log(`https://localhost:7105/api/suppliers/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: `https://localhost:7105/api/suppliers/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>

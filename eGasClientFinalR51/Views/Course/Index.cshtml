@@ -1,0 +1,143 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Course</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="coureID" class="control-label">coureID</label>
+                <input value="0" id="coureID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="courName" class="control-label">courName</label>
+                <input id="courName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="durationday" class="control-label">durationday</label>
+                <input id="durationday" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="price" class="control-label">price</label>
+                <input id="price" class="form-control" />
+            </div>
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                    <tr><th>coureID</th><th>courName</th><th>durationday</th><th>price</th><th></th><th></th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "https://localhost:7105/api/cours/GetAll",
+            success: function (f) {
+                a1 = "";
+                $.each(f, function (i, item) {
+                    a1 += `<tr><td>${f[i].coureID}</td><td><input value="${f[i].courName}" /></td><td><input value="${f[i].durationday}" /></td><td><input value="${f[i].price}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${f[i].coureID}','${f[i].courName}','${f[i].durationday}','${f[i].price}')">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c, d) {
+            //alert("OK")
+            $("#coureID").val(a);
+            $("#courName").val(b);
+            $("#durationday").val(c);
+            $("#price").val(d);
+
+        }
+
+
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "coureID": $("#coureID").val(),
+                "courName": $("#courName").val(),
+                "durationday": $("#durationday").val(),
+                "price": $("#price").val(),
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "https://localhost:7105/api/cours/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Course";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "coureID": $("#coureID").val(),
+                "courName": $("#courName").val(),
+                "durationday": $("#durationday").val(),
+                "price": $("#price").val(),
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: `https://localhost:7105/api/cours/Update?id=${$("#coureID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Course";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+            //console.log(`https://localhost:7105/api/cours/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: `https://localhost:7105/api/cours/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>

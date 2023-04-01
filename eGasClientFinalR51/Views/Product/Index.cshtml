@@ -1,0 +1,182 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Master</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="proID" class="control-label">proID</label>
+                <input id="proID" value="0" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="proName" class="control-label">proName</label>
+                <input id="proName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="DistributorID" class="control-label">DistributorID</label>
+                <input id="DistributorID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="depID" class="control-label">depID</label>
+                <input id="depID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="proType" class="control-label">proType</label>
+                <input id="proType" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="size" class="control-label">size</label>
+                <input id="size" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="proWeight" class="control-label">proWeight</label>
+                <input id="proWeight" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="proDetail" class="control-label">proDetail</label>
+                <input id="proDetail" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="proImage" class="control-label">proImage</label>
+                <input id="proImage" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="price" class="control-label">price</label>
+                <input id="price" class="form-control" />
+            </div>
+
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                    <tr><th>proID</th><th>proName</th><th>DistributorID</th><th>depID</th><th>proType</th><th>size</th><th>proWeight</th><th>proDetail</th><th>proImage</th><th>price</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "https://localhost:7105/api/products/GetAll",
+            success: function (d) {
+                a1 = "";
+                $.each(d, function (i, item) {
+                    a1 += `<tr><td>${d[i].proID}</td><td><input value="${d[i].proName}" /></td><td><input value="${d[i].DistributorID}" /></td><td><input value="${d[i].depID}" /></td><td><input value="${d[i].proType}" /></td><td><input value="${d[i].size}" /></td><td><input value="${d[i].proWeight}" /></td><td><input value="${d[i].proDetail}" /></td><td><input value="${d[i].proImage}" /></td><td><input value="${d[i].price}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${d[i].proID}','${d[i].proName}','${d[i].DistributorID}','${d[i].depID}','${d[i].proType}','${d[i].size}','${d[i].proWeight}','${d[i].proDetail}','${d[i].proImage}','${d[i].price}')">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c, d, e, f, g, h, i, j) {
+            //alert("OK")
+            $("#proID").val(a);
+            $("#proName").val(b);
+            $("#DistributorID").val(c);
+            $("#depID").val(d);
+            $("#proType").val(e);
+            $("#size").val(f);
+            $("#proWeight").val(g);
+            $("#proDetail").val(h);
+            $("#proImage").val(i);
+            $("#price").val(j);
+
+        }
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "proID": $("#proID").val(),
+                "proName": $("#proName").val(),
+                "DistributorID": $("#DistributorID").val(),
+                "depID": $("#depID").val(),
+                "proType": $("#proType").val(),
+                "size": $("#size").val(),
+                "proWeight": $("#proWeight").val(),
+                "proDetail": $("#proDetail").val(),
+                "proImage": $("#proImage").val(),
+                "price": $("#price").val()
+                
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "https://localhost:7105/api/products/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Product";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "proID": $("#proID").val(),
+                "proName": $("#proName").val(),
+                "DistributorID": $("#DistributorID").val(),
+                "depID": $("#depID").val(),
+                "proType": $("#proType").val(),
+                "size": $("#size").val(),
+                "proWeight": $("#proWeight").val(),
+                "proDetail": $("#proDetail").val(),
+                "proImage": $("#proImage").val(),
+                "price": $("#price").val()
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: `https://localhost:7105/api/products/Update?id=${$("#aID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Product";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+            //console.log(`https://localhost:7105/api/products/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: `https://localhost:7105/api/products/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>

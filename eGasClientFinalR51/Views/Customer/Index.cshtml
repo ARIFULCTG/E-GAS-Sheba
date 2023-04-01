@@ -1,0 +1,210 @@
+﻿<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h2>Master</h2>
+            <hr />
+            <div hidden class="form-group">
+                <label for="customerID" class="control-label">customerID </label>
+                <input id="customerID" value="0" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="customerName" class="control-label">customerName</label>
+                <input id="customerName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Genderid" class="control-label">Genderid</label>
+                <input id="Genderid" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_01" class="control-label">phone_01</label>
+                <input id="phone_01" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="phone_02" class="control-label">phone_02</label>
+                <input id="phone_02" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="dob" class="control-label">dob</label>
+                <input id="dob" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label">email</label>
+                <input id="email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="cityID" class="control-label">cityID</label>
+                <input id="cityID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="aearID" class="control-label">areaID</label>
+                <input id="aearID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="road_No" class="control-label">road_No</label>
+                <input id="road_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="house_No" class="control-label">house_No</label>
+                <input id="house_No" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="customer_Type" class="control-label">customer_Type</label>
+                <input id="customer_Type" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="customer_Type" class="control-label">customer_Type</label>
+                <input id="customer_Type" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="photo" class="control-label">photo</label>
+                <input id="photo" class="form-control" />
+            </div>
+
+
+            <div class="row">
+                <button id="save" type="submit" class="btn btn-danger">Save</button>
+                <br />
+                <button id="update" type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h2>Records</h2>
+            <table id="Details" class="table">
+                <thead>
+                    <tr><th>customerID</th><th>customerName</th><th>Genderid</th><th>phone_01</th><th>phone_02</th><th>dob</th><th>email</th><th>cityID</th><th>areaID</th><th>road_No</th><th>house_No</th><th>customer_Type</th><th>photo</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: "GET",
+            dataType: "json",
+            url: "https://localhost:7105/api/customers/GetAll",
+            success: function (d) {
+                a1 = "";
+                $.each(d, function (i, item) {
+                    a1 += `<tr><td>${d[i].customerID}</td><td><input value="${d[i].customerName}" /></td><td><input value="${d[i].Genderid}" /></td><td><td><input value="${d[i].phone_01}" /></td><td><td><td><input value="${d[i].phone_02}" /></td><td><td><input value="${d[i].dob}" /></td><td><td><input value="${d[i].email}" /></td><td><td><td><input value="${d[i].cityID}" /></td><td><td><td><td><input value="${d[i].aearID}" /></td><td><td><td><td><input value="${d[i].road_No}" /></td><td><td><td><input value="${d[i].house_No}" /></td><td><td><td><input value="${d[i].customer_Type}" /></td><td><td><td><input value="${d[i].photo}" /></td><td><button type='button' class="remove">Remove</button><button type='button' class="edit" onclick="edit('${d[i].customerID}','${d[i].customerName}','${d[i].Genderid}','${d[i].phone_01}','${d[i].phone_02}','${d[i].dob}','${d[i].email}','${d[i].cityID}','${d[i].aearID}','${d[i].road_No}','${d[i].house_No}'),'${d[i].customer_Type}','${d[i].photo}'">Select</button></td></tr>`;
+
+                });
+
+                $("#Details tbody").html(a1);
+            }
+        });
+
+        edit = function (a, b, c, d, e, f, g, h, i, j, k, l, m) {
+            //alert("OK")
+            $("#customerID").val(a);
+            $("#customerName").val(b);
+            $("#Genderid").val(c);
+            $("#phone_01").val(d);
+            $("#phone_02").val(e);
+            $("#dob").val(f);
+            $("#email").val(g);
+            $("#cityID").val(h);
+            $("#aearID").val(i);
+            $("#road_No").val(j);
+            $("#house_No").val(k);
+            $("#customer_Type").val(l);
+            $("#photo").val(m);
+
+        }
+
+        $("#save").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "customerID": $("#customerID").val(),
+                "customerName": $("#customerName").val(),
+                "Genderid": $("#Genderid").val(),
+                "phone_01": $("#phone_01").val(),
+                "phone_02": $("#phone_02").val(),
+                "dob": $("#dob").val(),
+                "email": $("#email").val(),
+                "cityID": $("#cityID").val(),
+                "aearID": $("#aearID").val(),
+                "road_No": $("#road_No").val(),
+                "house_No": $("#house_No").val(),
+                "customer_Type": $("#customer_Type").val(),
+                "photo": $("#photo").val()
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "https://localhost:7105/api/customers/Add",
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Customer";
+                }
+            });
+        });
+
+        $("#update").click(function (e) {
+            e.preventDefault();
+
+            var data = {
+                "customerID": $("#customerID").val(),
+                "customerName": $("#customerName").val(),
+                "Genderid": $("#Genderid").val(),
+                "phone_01": $("#phone_01").val(),
+                "phone_02": $("#phone_02").val(),
+                "dob": $("#dob").val(),
+                "email": $("#email").val(),
+                "cityID": $("#cityID").val(),
+                "aearID": $("#aearID").val(),
+                "road_No": $("#road_No").val(),
+                "house_No": $("#house_No").val(),
+                "customer_Type": $("#customer_Type").val(),
+                "photo": $("#photo").val()
+            };
+            console.log(JSON.stringify(data));
+
+            $.ajax({
+                method: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: `https://localhost:7105/api/customers/Update?id=${$("#instructorID").val()}`,
+                data: JSON.stringify(data),
+                success: function () {
+                    window.location = "/Customer";
+                }
+            });
+        });
+
+        $(document).on("click", ".remove", function () {
+            //alert($(this).parent().parent().html())
+            var s = $(this).parent().parent().children(":first").html();
+            var s2 = $(this).parent().parent();
+            $.when(Delete(s)).then(function (response) {
+                s2.remove();
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+        });
+
+        function Delete(a) {
+            //console.log(`https://localhost:7105/api/customers/Delete?id=${a}`);
+            return $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: `https://localhost:7105/api/customers/Delete?id=${a}`
+            });
+        }
+
+    });
+
+</script>
